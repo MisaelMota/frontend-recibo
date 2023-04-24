@@ -1,0 +1,19 @@
+.content-principalMenu-container{
+display: flex;
+justify-content: space-evenly;
+margin-top: 1rem;
+}
+
+.content-principalMenu-slogan{
+   font-size: 1.5rem;
+   margin-top: 6rem;
+}
+
+.content-principalMenu-image{
+    width: 400px;
+    height: 400px;
+}
+
+h2,p{
+    font-family: var(--fuente-primaria);
+}

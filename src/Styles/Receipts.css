@@ -1,0 +1,52 @@
+*{
+    font-family: var(--fuente-primaria);
+}
+
+h1{
+    text-align: center;
+}
+
+.btn-containerR{
+    display: flex;
+    width: auto;
+    height: auto;
+    justify-content: end;
+    margin-top: 2.5rem;
+    gap: 10px;
+}
+
+.btn-createR{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: var(--fuente-secundaria);
+    border-color: var(--contraste-luz);
+    border-radius: 8px;
+    padding: 0.625rem 1.25rem;
+    font-size: 1.25rem;
+    cursor: pointer;
+    border: 1px solid transparent;
+}
+
+.btn-createR:hover{
+    background-color: #FFCB56;
+    padding: 0.7rem 1.5rem;
+    transition: padding 0.1s;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+.date-picker{
+    width: auto;
+    height: 3rem;
+    border-radius: 8px;
+    border: 1px solid  var(--contraste-luz);
+}
+
+.receipts-cards-container{
+    display: flex;
+    margin-left: 2rem;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+

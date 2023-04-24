@@ -1,0 +1,19 @@
+.navBar-Container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid var(--contraste-luz);
+    height: 4rem;
+}
+
+
+.link-container {
+    display: inline-flex;
+    gap: 2rem;
+}
+
+.link-principal {
+    text-decoration: none;
+    font-family: var(--fuente-primaria);
+    color: var(--color-letra);
+}
