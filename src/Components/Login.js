@@ -7,7 +7,7 @@ import dataConexion from '../Data/dataConexion';
 import swal from 'sweetalert';
 import PrincipalMenu from './PrincipalMenu';
 import { useAuthContext } from '../Contexts/authContext';
-
+import ReciboImg from "../Assets/ReciboImg.svg"
 
 const Login = () => {
 
@@ -26,52 +26,54 @@ const Login = () => {
 
   return (
     <div className='principal-container'>
-      <div className='logo-container-login'>
-        <img className='img-logo' src={Logo} />
-      </div>
+
 
       <div className='form-login-container'>
         <div className='form-name-container'>
-          <h1 className='name-login-text'>Login</h1>
+          <img className='img-logo' src={Logo} />
         </div>
 
-        <div className='form-container'>
-          <form onSubmit={handleSubmit(UserLogin)}>
 
-            <div className='input-login-container'>
+        <form className='form-container' onSubmit={handleSubmit(UserLogin)}>
 
-              <label className='label-login'>Correo electronico</label>
-              <input className='input-login'
-                type="text"
-                placeholder='example@gmail.com'
-                {...register("correo_usuario", {
-                  required: true,
-                  pattern: emailPattern
-                })}
-              />
-              {errors.correo_usuario?.type === "required" && <span className='form-error-message'>El Correo es requerido</span>}
-              {errors.correo_usuario?.type === "pattern" && <span className='form-error-message'>El Correo tiene un formato incorrecto</span>}
-            </div>
+          <div className='input-login-container'>
 
-            <div className='input-login-container'>
-              <label className='label-login'>Contraseña</label>
-              <input className='input-login'
-                type="password"
-                {...register("contrasena", {
-                  required: true,
-                })}
-              />
-              {errors.contrasena?.type === "required" && <span className='form-error-message'>La contraseña es requerida</span>}
-            </div>
+            <label className='label-login'>Correo electronico</label>
+            <input className='input-login'
+              type="text"
+              placeholder='example@gmail.com'
+              {...register("correo_usuario", {
+                required: true,
+                pattern: emailPattern
+              })}
+            />
+            {errors.correo_usuario?.type === "required" && <span className='form-error-message'>El correo es requerido</span>}
+            {errors.correo_usuario?.type === "pattern" && <span className='form-error-message'>El correo tiene un formato incorrecto</span>}
+          </div>
 
-            <div className='btn-container'>
-              <button type='sumbit' className='btn-login'>Acceder</button>
-            </div>
+          <div className='input-login-container'>
+            <label className='label-login'>Contraseña</label>
+            <input className='input-login'
+              type="password"
+              {...register("contrasena", {
+                required: true,
+              })}
+            />
+            {errors.contrasena?.type === "required" && <span className='form-error-message'>La contraseña es requerida</span>}
+          </div>
 
-          </form>
-        </div>
+          <div className='btn-container'>
+            <button type='sumbit' className='btn-login'>Iniciar sesión</button>
+          </div>
+
+        </form>
+
       </div>
-      {/* {login === true && <PrincipalMenu />} */}
+
+      <div className='image-login'>
+          <img src={ReciboImg}/>
+        </div>
+
     </div>
 
   )

@@ -1,147 +1,80 @@
 import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import { useForm } from 'react-hook-form';
-import swal from 'sweetalert';
 import dataConexion from '../Data/dataConexion';
+import { useForm } from "react-hook-form"
+import ReceiptComp from './ReceiptComp';
+import swal from 'sweetalert';
 import jwtDecode from "jwt-decode"
-import { useAuthContext } from '../Contexts/authContext';
-
-
-
+import { bool } from 'prop-types';
 const EditReceipts = () => {
 
-  const { register, formState: { errors }, handleSubmit, reset } = useForm()
+
+
+  const { reset } = useForm()
+  const { id } = useParams()
+  const title = "Editar Recibo"
   const jwtAcs = window.localStorage.getItem("userAcss")
   const decode = jwtDecode(jwtAcs)
-  const [tenants, setTetants] = useState([])
-  const [direccions, setDireccions] = useState([])
-  const [user, setUser] = useState([])
-  const { LogOut } = useAuthContext();
-  const isNumber = (value) => !isNaN(value);
+  const [active, setActive] = useState(Boolean)
+  console.log(id)
 
-  const { id_detalle } = useParams()
+  const SaveEditReceipts = async (data, e) => {
+    e.preventDefault();
 
 
-  const FetchReceipts = async (data, e) => {
-    if (jwtAcs && jwtDecode(jwtAcs).exp > Date.now() / 1000) {
-      console.log(decode)
-      console.log("hola estoy en fetch")
+    const formData = { ...data, id_usuario: decode.id }
+    console.log(formData)
+    try {
+      const response = await dataConexion.put(`/editarRecibo/${id}`,formData,
 
-      const fetchedReceipts = await dataConexion.post(`/reciboPorId/${id_detalle}`, JSON.stringify({ id_detalle: decode.id }), {
-        headers: { 'Content-Type': 'application/json' },
-        withCredentials: true,
-        credentials: 'include'
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'x-access-token': `${jwtAcs}`
+          },
+          withCredentials: true,
+          credentials: 'include',
 
-      }).then(response => {
-        setTetants(response.data)
-        console.log(response.data)
-      }).catch(err => {
-        console.log("no tiene inquilinos", err)
+
+        }
+      ).then(() => {
+        swal({
+          title: "El recibo se ha actualizado correctamente",
+          icon: "success",
+          buttons: "OK"
+        })
       })
+    } catch (error) {
+      if (error.request.status === 500) {
+        swal({
+          title: "Ocurrio un error",
+          text: "ingrese los datos nuevamente",
+          icon: "error",
+          button: "Ok",
+        })
 
-
+      }
+      console.log(error)
 
     }
-    else {
-      console.log("token invalido")
-      LogOut()
-    }
-
   }
 
-  const FetchTenants = async (data, e) => {
-    if (jwtAcs && jwtDecode(jwtAcs).exp > Date.now() / 1000) {
-      console.log(decode)
-      console.log("hola estoy en fetch")
-
-      const fetchedTenant = await dataConexion.post("/listarInquilinos", JSON.stringify({ usuario_rb: decode.id }), {
-        headers: { 'Content-Type': 'application/json' },
-        withCredentials: true,
-        credentials: 'include'
-
-      }).then(response => {
-        setTetants(response.data)
-        console.log(response.data)
-      }).catch(err => {
-        console.log("no tiene inquilinos", err)
-      })
-
-
-
-    }
-    else {
-      console.log("token invalido")
-      LogOut()
-    }
-
-  }
-
-  const FetchDireccions = async (data, e) => {
-    if (jwtAcs && jwtDecode(jwtAcs).exp > Date.now() / 1000) {
-      console.log(decode)
-      console.log("hola estoy en fetch")
-
-      const fetchedDireccion = await dataConexion.post("/listarDirecciones", JSON.stringify({ usuario_rb: decode.id }), {
-        headers: { 'Content-Type': 'application/json' },
-        withCredentials: true,
-        credentials: 'include'
-
-      }).then(response => {
-        setDireccions(response.data)
-        console.log(response.data)
-      }).catch(err => {
-        console.log("no tiene direcciones de casa", err)
-      })
-
-
-
-    }
-    else {
-      console.log("token invalido")
-      LogOut()
-    }
-
-  }
-
-  const FetchUser = async (data, e) => {
-    if (jwtAcs && jwtDecode(jwtAcs).exp > Date.now() / 1000) {
-      console.log(decode)
-      console.log("hola estoy en fetch")
-
-      const fetchedUser = await dataConexion.post("/usuarioPorId", JSON.stringify({ id_usuario: decode.id }), {
-        headers: { 'Content-Type': 'application/json' },
-        withCredentials: true,
-        credentials: 'include'
-
-      }).then(response => {
-        setUser(response.data)
-        console.log(response.data)
-      }).catch(err => {
-        console.log("no tiene usuario", err)
-      })
-
-
-
-    }
-    else {
-      console.log("token invalido")
-      LogOut()
-    }
-
-  }
 
   useEffect(() => {
-    FetchTenants()
-    FetchDireccions()
-    FetchUser()
+    setActive(true)
   }, [])
-
-
-
+  console.log(active)
 
 
   return (
-    <div>EditReceipts</div>
+    <div>
+      <ReceiptComp
+        functionReceipt={SaveEditReceipts}
+        title={title}
+        idReceipt={id}
+        dataReceipt={active}
+      />
+    </div>
   )
 }
 
